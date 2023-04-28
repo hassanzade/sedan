@@ -1,0 +1,131 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix grddl: <http://www.w3.org/2003/g/data-view#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix plowl: <http://niche.cs.dal.ca/2017/06/plowl#> .
+
+<http://niche.cs.dal.ca/2017/06/plowl/> a owl:Ontology ;
+     dc:title "Plausible OWL Schema vocabulary" ;
+     rdfs:comment """
+		This ontology partially describes the plausible extensions to OWL. This extension includes
+		classes and properties that together form the basis of the PL-OWL.
+		""" ;
+     rdfs:isDefinedBy
+          <http://www.w3.org/TR/owl2-mapping-to-rdf/>,
+          <http://www.w3.org/TR/owl2-rdf-based-semantics/>,
+          <http://www.w3.org/TR/owl2-syntax/> ;
+     rdfs:seeAlso   <http://www.w3.org/TR/owl2-rdf-based-semantics/#table-axiomatic-classes>,
+                    <http://www.w3.org/TR/owl2-rdf-based-semantics/#table-axiomatic-properties> ;
+     owl:imports <http://www.w3.org/2000/01/rdf-schema>,
+					<http://www.w3.org/2002/07/owl> ;
+     owl:versionIRI <http://niche.cs.dal.ca/2017/06/plowl> ;
+     owl:versionInfo "$Date: 2016/11/07 14:59:12 $" ;
+     grddl:namespaceTransformation <http://dev.w3.org/cvsweb/2009/owl-grddl/owx2rdf.xsl> .  
+
+
+ 
+plowl:OrderedProperty 
+	a owl:Class ;
+    	 rdfs:label "OrderedProperty" ;
+     	 rdfs:comment "The class of ordered properties." ;
+    	 rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> ;
+    	 rdfs:subClassOf owl:ObjectProperty. 
+	 
+
+plowl:Context 
+	a owl:Class;
+	 rdfs:subClassOf rdf:Node;
+	 rdfs:label "Context" ;
+    	 rdfs:comment "Represents the context of the object property." ;
+     	 rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .
+	 
+plowl:PlausiblePattern 
+	a owl:Class;
+	 rdfs:subClassOf rdf:Node;
+	 rdfs:label "Plausible Pattern" ;
+    	 rdfs:comment "Collection of the plausible patterns." ;
+     	rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .
+
+plowl:PlausibleAnswer 
+	a owl:Class;
+	 rdfs:label "Plausible Answer" ;
+    	 rdfs:comment "Represent the plasubily inferred triples." ;
+    	 rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#>;
+	 rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty plowl:inferredThroughPattern ;
+		owl:allValuesFrom [
+			a owl:Class ;
+			owl:unionOf (
+				<http://web.cs.dal.ca/~hossein/plowl/univ-bench.owl#Generalization>
+				<http://web.cs.dal.ca/~hossein/plowl/univ-bench.owl#Specialization>
+				<http://web.cs.dal.ca/~hossein/plowl/univ-bench.owl#Similarity>
+				<http://web.cs.dal.ca/~hossein/plowl/univ-bench.owl#Dissimilarity>
+				<http://web.cs.dal.ca/~hossein/plowl/univ-bench.owl#Afortiori>
+				<http://web.cs.dal.ca/~hossein/plowl/univ-bench.owl#Interpolation>
+			)
+			]
+		],
+		[
+		a owl:Restriction ;
+		owl:onProperty plowl:inTheContextOf ;
+		owl:someValuesFrom plowl:Context
+		];
+	 
+plowl:hasContext 
+	a owl:ObjectProperty;	  
+	  rdfs:range plowl:Context;
+	  rdfs:comment "This object property links an opject property to the context nodes being applied to it."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .
+
+plowl:standsAfter 
+	a owl:OrderedProperty;	  
+	  rdfs:range owl:Thing;
+	  rdfs:domain owl:Thing;
+	  rdfs:comment "This object property is used to model ordering relation to show which concept (subject) locates after another concept (object) regarding a specific context. The inverse property is standsBefore.."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .	  
+	 
+plowl:standsBefore 
+	a owl:OrderedProperty;	  
+	  rdfs:range owl:Thing;
+	  rdfs:domain owl:Thing;
+	  rdfs:comment "This object property is used to model ordering relation to show which concept (subject) locates before another concept (object) regarding a specific context. The inverse property is standsAfter.."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .	
+	  
+plowl:hasSubject 			
+	a owl:ObjectProperty;	  
+	  rdfs:domain plowl:PlausibleAnswer;
+	  rdfs:range  owl:Thing;
+	  rdfs:comment "This object property links a plausible answer to its subject."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .
+
+plowl:hasObject 			
+	a owl:ObjectProperty;	  
+	  rdfs:domain plowl:PlausibleAnswer;
+	  rdfs:range  owl:Thing;
+	  rdfs:comment "This object property links a plausible answer to its object."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .	  
+	  
+plowl:hasPredicate 			
+	a owl:ObjectProperty;	  
+	  rdfs:domain plowl:PlausibleAnswer;
+	  rdfs:range  owl:Thing;
+	  rdfs:comment "This object property links a plausible answer to its predicate."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .
+	  
+plwol:inferredThroughPattern 
+	a owl:ObjectProperty;	  
+	  rdfs:domain plowl:PlausibleAnswer;
+	  rdfs:range  owl:PlausiblePattern;
+	  rdfs:comment "This object property links a plausible answer to the plausible pattern that lead to the inference."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .	
+		
+plwol:inTheContextOf 
+	a owl:ObjectProperty;	  
+	  rdfs:domain plowl:PlausibleAnswer;
+	  rdfs:range  plowl:Context;
+	  rdfs:comment "This object property links a plausible answer to the context that lead to the inference."^^xsd:string ;
+	  rdfs:isDefinedBy <http://niche.cs.dal.ca/2017/06/plowl#> .
