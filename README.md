@@ -5,7 +5,7 @@ SeDan is a Semantic-based Data Analytics (SeDan) framework  that implements our 
 ### SeDan’s Architecture
 Figure below illustrates the architecture of SeDan, where the main component is the plausible reasoner that comprises, the pattern matching function and the query rewriting algorithm. The pattern matching function implements the PL-OWL and OWL QL constructs to select and apply plausible patterns for plausible reasoning. The query rewriting algorithm transforms a given query into a plausible query for plausible reasoning. In SeDan the knowledge graph is the source for both answering and rewriting the queries, where it combines both the domain knowledge (i.e., expressed in the form of (DL) ontologies) and the domain data (i.e., represented in RDF). The knowledge graph includes the material (i.e., assertional data) to answer a SPARQL query, while it provides the required semantics (i.e., retrieved from ontological constructs or semantic data) for query rewriting. 
 
-![Figure 1](https://github.com/hassanzade/sedan/tree/main/images/Figure1.jpg)
+![Figure 1](images/Figure1.jpg)
 
 ### How SeDa works
 
